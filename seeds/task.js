@@ -1,6 +1,9 @@
 
 exports.seed = function(knex) {
-  return knex('task').insert([
+  return knex('task').truncate()
+  .then(function () {
+    // Inserts seed entries
+    return knex('task').insert([
     {
       description: 'reflect moments when you feel your best',
       notes: 'you can ask others for reference',
@@ -38,4 +41,5 @@ exports.seed = function(knex) {
       project_id: 2
     }, // 6
   ])
+})
 };

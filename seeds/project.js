@@ -1,6 +1,9 @@
 
 exports.seed = function(knex) {
-  return knex('project').insert([
+  return knex('project').truncate()
+  .then(function () {
+    // Inserts seed entries
+    return knex('project').insert([
     {
       project_name: 'Finding your purpose',
       description: 'It is hard to navigate your life without a purpose so finding it',
@@ -13,5 +16,5 @@ exports.seed = function(knex) {
     }, // 2
 
   ])
-    
+}) 
 };

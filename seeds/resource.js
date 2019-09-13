@@ -1,6 +1,9 @@
 
 exports.seed = function(knex) {
-  return knex('resource').insert([
+  return knex('resource').truncate()
+  .then(function () {
+    // Inserts seed entries
+    return knex('resource').insert([
     {
       resource_name: 'laptop',
       description: 'Macbook, can store data'
@@ -26,4 +29,5 @@ exports.seed = function(knex) {
       description: 'to sketch'
     }, // 6
   ])
+})
 };
