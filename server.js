@@ -62,7 +62,7 @@ server.post('/api/projects/:id/resources', (req,res) => {
         res.status(501).json({ message: 'Fail to add resource' })
       })
     } else {
-      res.status(404).json({ message: 'No resource to add.' })
+      res.status(404).json({ message: 'Not proper resource to add.' })
     }
   })
   .catch (err => {
@@ -87,6 +87,29 @@ server.get('/api/projects/:id/tasks', (req,res) => {
     });
 })
 
+//ADD A TASK
+server.post('/api/projects/:id/tasks', (req,res) => {
+    const taskData = req.body;
+    const {id} = req.params;
+
+    db.findProjectById(id)
+    .then(task => {
+    if (task) {
+      db.addTask(taskData, id)
+      .then(task => {
+        res.status(201).json(task);
+      })
+      .catch(err => {
+        res.status(501).json({ message: 'Fail to add task' })
+      })
+    } else {
+      res.status(404).json({ message: 'Not proper task to add.' })
+    }
+  })
+  .catch (err => {
+    res.status(500).json({ message: 'There is no project to add the task' });
+  });
+})
 
 
 
