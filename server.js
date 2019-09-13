@@ -70,6 +70,22 @@ server.post('/api/projects/:id/resources', (req,res) => {
   });
 })
 
+//GET TASKS
+server.get('/api/projects/:id/tasks', (req,res) => {
+    const {id} = req.params
+
+    db.getTasks(id)
+    .then(data => {
+    if (data.length) {
+        res.json(data);
+      } else {
+        res.status(404).json({ message: 'Could not get tasks for given project' })
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ message: 'Failed to get tasks' });
+    });
+})
 
 
 
