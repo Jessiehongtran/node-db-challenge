@@ -22,9 +22,9 @@ function addProject(project){
 }
 
 function getResources(id){
-    return db('resource')
-        .join('project_resource', 'resource.id', 'resource_id')
+    return db('project_resource')
+        .join('resource', 'resource.id', 'resource_id')
         .join('project','project.id', 'project_id')
-        .select('resource_name', 'description')
+        .select('resource.resource_name', 'resource.description')
         .where('project_id', Number(id))
 }

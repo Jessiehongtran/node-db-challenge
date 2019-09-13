@@ -17,7 +17,6 @@ server.get('/api/projects', (req,res) => {
 })
 
 //ADD A PROJECT
-
 server.post('/api/projects', (req,res) => {
     const projectData = req.body
 
@@ -30,6 +29,22 @@ server.post('/api/projects', (req,res) => {
     });
 })
 
+//GET RESOURCES
+server.get('/api/projects/:id/resources', (req,res) => {
+    const {id} = req.params
+
+    db.getResources(id)
+    .then(resources => {
+    if (resources.length) {
+        res.json(resources);
+      } else {
+        res.status(404).json({ message: 'Could not get resources for given project' })
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ message: 'Failed to get resources' });
+    });
+})
 
 
 
