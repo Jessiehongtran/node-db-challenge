@@ -46,7 +46,29 @@ server.get('/api/projects/:id/resources', (req,res) => {
     });
 })
 
+//ADD A RESOURCE
+server.post('/api/projects/:id/resources', (req,res) => {
+    const resourceData = req.body;
+    const {id} = req.params;
 
+    db.findProjectById(id)
+    .then(resource => {
+    if (resource) {
+      db.addResource(resourceData, id)
+      .then(resource => {
+        res.status(201).json(resource);
+      })
+      .catch(err => {
+        res.status(501).json({ message: 'Fail to add resource' })
+      })
+    } else {
+      res.status(404).json({ message: 'No resource to add.' })
+    }
+  })
+  .catch (err => {
+    res.status(500).json({ message: 'There is no project to add the resource' });
+  });
+})
 
 
 
