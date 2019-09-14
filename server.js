@@ -30,47 +30,49 @@ server.post('/api/projects', (req,res) => {
     });
 })
 
-//GET RESOURCES
-server.get('/api/projects/:id/resources', (req,res) => {
-    const {id} = req.params
-
-    db.getResources(id)
-    .then(resources => {
-    if (resources.length) {
-        res.json(resources);
-      } else {
-        res.status(404).json({ message: 'Could not get resources for given project' })
-      }
-    })
-    .catch(err => {
-      res.status(500).json({ message: 'Failed to get resources' });
-    });
-})
 
 //ADD A RESOURCE
 server.post('/api/projects/:id/resources', (req,res) => {
-    const resourceData = req.body;
-    const {id} = req.params;
+  const resourceData = req.body;
+  const {id} = req.params;
 
-    db.findProjectById(id)
-    .then(resource => {
-    if (resource) {
-      db.addResource(resourceData, id)
-      .then(resource => {
-        res.status(201).json(resource);
-      })
-      .catch(err => {
-        res.status(501).json({ message: 'Fail to add resource' })
-      })
-    } else {
-      res.status(404).json({ message: 'Not proper resource to add.' })
-    }
-  })
-  .catch (err => {
-    res.status(500).json({ message: 'There is no project to add the resource' });
-  });
+  db.findProjectById(id)
+  .then(project => {
+  if (project) {
+    db.addResource(resourceData, id)
+    .then(newResource => {
+      console.log('here resource_id', newResource.id)
+      console.log('here project_id', id)
+      const project_id = parseInt(id);
+      const resource_id = parseInt(newResource.id);
+      res.status(201).json(newResource);
+      db.linkResourceToProject(project_id, resource_id)
+    })
+    .catch(err => {
+      res.status(501).json({ message: 'Fail to add resource' })
+    })
+  } else {
+    res.status(404).json({ message: 'No resource to add.' })
+  }
+})
 })
 
+//GET RESOURCES
+server.get('/api/projects/:id/resources', (req,res) => {
+  const {id} = req.params
+
+  db.getResources(id)
+  .then(resources => {
+  if (resources.length) {
+      res.json(resources);
+    } else {
+      res.status(404).json({ message: 'Could not get resources for given project' })
+    }
+  })
+  .catch(err => {
+    res.status(500).json({ message: 'Failed to get resources' });
+  });
+})
 
 
 //GET TASKS

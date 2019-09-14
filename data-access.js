@@ -27,20 +27,27 @@ function addProject(project){
         .then(ids => ({id: ids[0]}))
 }
 
-function getResources(project_id){
-    return db('project_resource')
-        .join('resource', 'resource.id', 'resource_id')
-        .join('project','project.id', 'project_id')
-        .select('resource.resource_name', 'resource.description')
-        .where('project_id', Number(project_id))
-}
 
 function addResource(resource, project_id){
     return db('resource')
         .join('project_resource', 'resource.id', 'project_resource.resource_id')
         .insert(resource)
         .where('project_resource.project_id', project_id)
-        .then(ids => ({ id: ids[0] }));
+        .then(ids => ({ id: ids[0] }))
+        
+}
+function linkResourceToProject(project_id, resource_id){
+    return db('project_resource')
+        .insert({project_id: project_id, resource_id: resource_id})
+     
+}
+
+function getResources(project_id){
+    return db('project_resource')
+        .join('resource', 'resource.id', 'resource_id')
+        .join('project','project.id', 'project_id')
+        .select('resource.resource_name', 'resource.description')
+        .where('project_id', Number(project_id))
 }
 
 function getTasks(project_id){
@@ -58,7 +65,4 @@ function addTask(task, project_id){
         .then(ids => ({ id: ids[0] }));
 } 
 
-function linkResourceToProject(link){
-    return db('project_resource')
-        .insert(link)
-}
+
