@@ -8,6 +8,7 @@ module.exports = {
     addProject,
     getResources,
     addResource,
+    linkResourceToProject,
     getTasks,
     addTask
 }
@@ -55,4 +56,9 @@ function addTask(task, project_id){
         .insert(task)
         .where('task.project_id', project_id)
         .then(ids => ({ id: ids[0] }));
+} 
+
+function linkResourceToProject(link){
+    return db('project_resource')
+        .insert(link)
 }

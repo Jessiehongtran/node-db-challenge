@@ -9,6 +9,7 @@ server.use(express.json());
 server.get('/api/projects', (req,res) => {
     db.getProjects()
     .then(projects => {
+        projects.map(eachproject => eachproject.completed = eachproject.completed === 1 ? true : false)
         res.status(200).json(projects);
         })
     .catch(err => {
@@ -70,6 +71,8 @@ server.post('/api/projects/:id/resources', (req,res) => {
   });
 })
 
+
+
 //GET TASKS
 server.get('/api/projects/:id/tasks', (req,res) => {
     const {id} = req.params
@@ -88,6 +91,7 @@ server.get('/api/projects/:id/tasks', (req,res) => {
 })
 
 //ADD A TASK
+//once adding a task, please remember to add project_id to link with the project
 server.post('/api/projects/:id/tasks', (req,res) => {
     const taskData = req.body;
     const {id} = req.params;

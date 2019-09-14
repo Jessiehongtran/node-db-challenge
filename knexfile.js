@@ -5,5 +5,10 @@ module.exports = {
     connection: {
       filename: './project.db3',
     },
+    pool: {
+      afterCreate: (conn, done) => {
+        conn.run('PRAGMA foreign_keys = ON', done); 
+      },
+    }
   },
 };
