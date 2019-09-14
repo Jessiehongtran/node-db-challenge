@@ -1,0 +1,26 @@
+{
+  "name": "db-challenge",
+  "version": "1.0.0",
+  "description": "## Description",
+  "main": "index.js",
+  "scripts": {
+    "server": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jessiehongtran/node-db-challenge.git"
+  },
+  "author": "Hong",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jessiehongtran/node-db-challenge/issues"
+  },
+  "homepage": "https://github.com/Jessiehongtran/node-db-challenge#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "knex": "^0.19.4",
+    "knex-cleaner": "^1.3.0",
+    "nodemon": "^1.19.2",
+    "sqlite3": "^4.1.0"
+  }
+}
