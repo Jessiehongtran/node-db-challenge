@@ -52,7 +52,7 @@ server.post('/api/projects/:id/resources', (req,res) => {
       res.status(501).json({ message: 'Fail to add resource' })
     })
   } else {
-    res.status(404).json({ message: 'No resource to add.' })
+    res.status(404).json({ message: 'No project to add the resource.' })
   }
 })
 })
@@ -93,7 +93,6 @@ server.get('/api/projects/:id/tasks', (req,res) => {
 })
 
 //ADD A TASK
-//once adding a task, please remember to add project_id to link with the project
 server.post('/api/projects/:id/tasks', (req,res) => {
     const taskData = req.body;
     const {id} = req.params;

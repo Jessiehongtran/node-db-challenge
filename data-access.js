@@ -34,12 +34,15 @@ function addResource(resource, project_id){
         .insert(resource)
         .where('project_resource.project_id', project_id)
         .then(ids => ({ id: ids[0] }))
-        
+        // .returning('project_resource.project_id', 'resource.id')
+        // .then(function(project_id, id){
+        //     return db('project_resource')
+        //         .insert({project_id: project_id, resource_id: id})
+        // });
 }
 function linkResourceToProject(project_id, resource_id){
     return db('project_resource')
         .insert({project_id: project_id, resource_id: resource_id})
-     
 }
 
 function getResources(project_id){
@@ -60,7 +63,12 @@ function getTasks(project_id){
 function addTask(task, project_id){
     return db('task')
         .join('project', 'project.id', 'task.project_id')
-        .insert(task)
+        .insert({
+            description: task.description, 
+            notes: task.notes, 
+            completed: task.completed,
+            project_id: project_id
+        })
         .where('task.project_id', project_id)
         .then(ids => ({ id: ids[0] }));
 } 
